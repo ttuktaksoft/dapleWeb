@@ -1,0 +1,173 @@
+root
+	CountSetting
+		TeacherUserCount
+		StudentUserCount
+		ParentsUserCount
+		StoreCount
+		AppNoticeCount
+	UserData_Auth
+		ID
+			ID
+			PW
+			EMAIL
+			Name
+			PH
+			UserID
+			AccountType
+			
+	TeacherUserData  // 정보 변경시 UserData_Auth 정보도 변경 해야함
+		1
+			UserID
+			Name
+			PH
+			EnterStoreCode
+			RequestStoreCode
+	
+	StudentUserData // 정보 변경시 UserData_Auth 정보도 변경 해야함
+		1
+			UserID
+			Name
+			PH
+			EnterStoreCode
+			RequestStoreCode
+			
+	StoreCountData
+		1 // StoreCode
+			GradeCount
+			ClassCount
+			LessonCount
+			HomeworkCount
+			PatchCount
+			RealPatchCount // 앱에서 모니터링을 함 패치 데이터를 보내고 올려줌
+			TeacherTimeTableCount
+			StoreNoticeCount
+			
+	StoreData  // 데이터 변경시 데이터를 다시 받는다
+		1 -> Code
+			Info
+				Code
+				Name
+				Address_1
+				Address_2
+			TeacherList
+				1 -> UserID
+					UserID
+					Active
+			StudentList
+				1 // UserID
+					UserID
+					Active
+			GradeList (변경 예정)
+				1 // GradeID
+					ID
+					Name
+					Active
+			ClassList
+				1 // ClassID
+					ID
+					GradeID
+					Name
+					Active
+					StudentIDList
+			LessonList
+				1 // LessonID
+					ID
+					Name
+					Active
+					GradeID
+					StudentIDList
+			StudentGradeHistoryList
+				1 // 학생ID
+					UserID // 학생ID
+					GradeHistoryIDList
+	
+	HomeworkData   // 패치시 해당 아이디의 데이터를 새로 받는다
+		1 -> StoreID
+			1 -> HomeworkID
+				ID
+				Name
+				TeacherID
+				GradeID
+				LessonID
+				MakeTKTime
+				EndTKTime
+				CorrectList
+				LessonID
+				StudentIDList
+				BookID
+				BookName
+				BookPage
+						
+				
+	SendHomeworkData // 패치시 해당 아이디의 데이터를 새로 받는다
+		1 // StoreID
+			1_1 // 과제ID_학생ID
+				ID // 과제ID_학생ID
+				HomeworkID
+				StudentID
+				SendTKTime
+				SendUserGrade
+				MarkingList
+		
+				
+	TeacherTimeTable
+		1 // StoreID
+			1 // TimeTableID
+				TimeTableID
+				TeacherID
+				GradeID
+				ClassID
+				ClassRoom
+				TimeTableType
+				DayTKTime // 특정 요일에 하는 시간표
+				StudentIDList // 특정 요일에 하는 학생들 (예정)
+				RepeatWeek
+				StartTKTime
+				EndTKTime
+				ActiveTKTime
+				DeactiveTKTime
+				
+	StudentAttend  // 요기를 모니터링을 해야하는데 예를 들어 25일 데이터가 없을때는 모니터링이 안걸릴것 같은데 어떻게 해야할까?
+		1 // StoreID
+			20201124000000000000 // 11월 24일 0시 TKtime
+				StudentID
+				AttendTKTime // 11월 24일날 출석한 시간
+				Temperature // 출석 온도
+				
+	StoreNotice
+		1 // StoreID
+			1 // StoreNoticeID
+				StoreNoticeID
+				Title
+				Desc
+				MakeTKTime
+				TeacherView
+				StudentView
+				ParentsView
+				Active
+				
+	AppNotice
+		1 // NoticeID
+			AppNoticeID
+			Title
+			Desc
+			MakeTKTime
+			Active
+		
+				
+				
+
+	StorePatch // 학원 패치
+		1 // StoreID
+			1 // PatchID
+				PatchID
+				PatchTKTime
+				
+				DataType SendHomeworkData
+				ID
+				
+				DataType HomeworkData
+				ID
+
+				DataType StoreData
+				ID
